@@ -1,2 +1,5 @@
 {
+  "ConnectionStrings": {
+    "blob": "{your_blob_storage_connectionstring_here}"
+  }
 }
