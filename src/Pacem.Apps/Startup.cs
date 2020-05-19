@@ -29,12 +29,12 @@ namespace Pacem.Apps
                 .AddRazorRuntimeCompilation()
                 .AddPacemJsonOptions();
 
-            // TODO: adapt
+            // TODO: plug your favorite distribute cache
             services.AddDistributedMemoryCache();
 
             services.AddPacemAcmeHttpChallenge(options =>
             {
-                options.ConnectionString = Configuration.GetConnectionString("storage");
+                options.ConnectionString = Configuration.GetConnectionString("blob");
             });
 
             // services
