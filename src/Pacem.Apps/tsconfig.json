@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "target": "es6",
+    "lib": [ "es2015", "dom" ],
+    "types": [ "@aspnet/signalr", "@types/leaflet", "@types/swagger-schema-official", "pacem" ],
+    "moduleResolution": "node",
+    "outFile": "wwwroot/js/pacem-apps/app.js",
+    "declaration": false,
+    "experimentalDecorators": true
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}

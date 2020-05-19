@@ -3,7 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacem.Apps", "Pacem.Apps\Pacem.Apps.csproj", "{7BF90D62-54E8-473D-8C49-C139F50D197B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pacem.Apps", "src\Pacem.Apps\Pacem.Apps.csproj", "{7BF90D62-54E8-473D-8C49-C139F50D197B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D9072398-BE52-41BB-A896-7859441D879F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{ECC84FED-67E3-4950-9793-27EDBA449C0F}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E6AACAFA-2A12-45F9-813F-F33FEBF84F19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pacem.Apps.Tests", "test\Pacem.Apps.Tests\Pacem.Apps.Tests.csproj", "{7AD588F5-0160-45B8-B32B-2A01BADB379E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +26,17 @@ Global
 		{7BF90D62-54E8-473D-8C49-C139F50D197B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BF90D62-54E8-473D-8C49-C139F50D197B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BF90D62-54E8-473D-8C49-C139F50D197B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AD588F5-0160-45B8-B32B-2A01BADB379E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AD588F5-0160-45B8-B32B-2A01BADB379E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AD588F5-0160-45B8-B32B-2A01BADB379E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AD588F5-0160-45B8-B32B-2A01BADB379E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7BF90D62-54E8-473D-8C49-C139F50D197B} = {D9072398-BE52-41BB-A896-7859441D879F}
+		{7AD588F5-0160-45B8-B32B-2A01BADB379E} = {E6AACAFA-2A12-45F9-813F-F33FEBF84F19}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82FD55B3-9EF9-4246-8B44-DBB1FA58CA31}

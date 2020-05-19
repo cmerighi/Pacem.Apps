@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Pacem.Apps.Services;
 
 namespace Pacem.Apps
 {
@@ -24,15 +25,20 @@ namespace Pacem.Apps
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
-            services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddRazorPages()
+                .AddRazorRuntimeCompilation()
+                .AddPacemJsonOptions();
 
             // TODO: adapt
             services.AddDistributedMemoryCache();
 
             services.AddPacemAcmeHttpChallenge(options =>
             {
-                options.ConnectionString = 
+                options.ConnectionString = Configuration.GetConnectionString("storage");
             });
+
+            // services
+            services.AddScoped<IUpdater, BlobStorageUpdater>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,9 +53,9 @@ namespace Pacem.Apps
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();

@@ -338,3 +338,9 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Local configuration
+*.[Dd]evelopment.json
+
+# Local output files
+dist/*
