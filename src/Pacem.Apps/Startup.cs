@@ -25,7 +25,10 @@ namespace Pacem.Apps
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Latest);
-            services.AddRazorPages()
+            services.AddRazorPages(options =>
+            {
+                options.RootDirectory = "/server/Pages";
+            })
                 .AddRazorRuntimeCompilation()
                 .AddPacemJsonOptions();
 
