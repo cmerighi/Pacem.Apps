@@ -9,12 +9,19 @@ namespace Pacem.Apps
     public static class ReleaseModelExtensions
     {
         public static SquirrelResponse ToSquirrel(this ReleaseModel release)
-            => new SquirrelResponse
+        {
+            // 'folderize' url
+            var builder = new UriBuilder(release.UpdateDownloadUrl);
+            string path = builder.Path;
+            builder.Path = path.Substring(0, path.LastIndexOf('/') + 1);
+
+            return new SquirrelResponse
             {
                 Date = release.Date,
-                DownloadUrl = release.UpdateDownloadUrl,
+                DownloadFolderUri = builder.Uri,
                 Name = release.Name,
                 Notes = release.Notes
             };
+        }
     }
 }

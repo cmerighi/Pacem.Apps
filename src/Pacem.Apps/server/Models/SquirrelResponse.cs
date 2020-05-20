@@ -8,7 +8,7 @@ namespace Pacem.Apps.Models
         public string Name { get; set; }
 
         [JsonPropertyName("url")]
-        public string DownloadUrl { get; set; }
+        public Uri DownloadFolderUri { get; set; }
 
         [JsonPropertyName("pub_date")]
         public DateTimeOffset? Date { get; set; }
