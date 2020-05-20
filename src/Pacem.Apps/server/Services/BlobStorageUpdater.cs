@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -74,6 +75,8 @@ namespace Pacem.Apps.Services
                 // otherwise throw (.Single())
                 var downloadBlob = latest.Where(i => i.Name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)).Single();
                 var updateBlob = latest.Where(i => i.Name.EndsWith(".nupkg", StringComparison.OrdinalIgnoreCase)).Single();
+                // RELEASES mandatory as well
+                var releasesBlob = latest.Where(i => i.Name.EndsWith("RELEASES", StringComparison.OrdinalIgnoreCase)).Single();
 
                 var sasQuery = _account.GetSharedAccessSignature(new SharedAccessAccountPolicy
                 {
@@ -90,7 +93,8 @@ namespace Pacem.Apps.Services
                     UpdateDownloadUrl = string.Concat(updateBlob.Uri, sasQuery),
                     Name = product,
                     Version = latest.Key,
-                    Date = updateBlob.Properties.Created
+                    Date = updateBlob.Properties.Created,
+                    ReleasesContent = await releasesBlob.DownloadTextAsync()
                 };
 
                 string json = JsonSerializer.Serialize(latestRelease, _json);

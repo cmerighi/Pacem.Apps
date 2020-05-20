@@ -27,8 +27,8 @@ namespace Pacem.Apps.Controllers
             _updater = updater;
         }
 
-        [HttpGet("check/{product}/{platform}/{arch}/{version}")]
-        public async Task<ActionResult<Models.ReleaseModel>> CheckAppVersionAsync([Required] string product, [Required] string platform, [Required] string arch, [Required] string version)
+        [HttpGet("{product}/{platform}/{arch}/{version}/RELEASES")]
+        public async Task<ActionResult<Models.ReleaseModel>> CheckAppVersionTheSquirrelWayAsync([Required] string product, [Required] string platform, [Required] string arch, [Required] string version)
         {
             if (!ModelState.IsValid)
             {
@@ -39,8 +39,8 @@ namespace Pacem.Apps.Controllers
             if (latest  != null && _vComparer.Compare(version, latest.Version) < 0)
             {
                 // convert to a Squirrel response
-                var squirrel = latest.ToSquirrel();
-                return Ok(squirrel);
+                var squirrel = latest.ToSquirrelWindows();
+                return Content(squirrel, "text/plain");
             }
 
             return NoContent();

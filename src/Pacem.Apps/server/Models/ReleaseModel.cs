@@ -17,5 +17,7 @@ namespace Pacem.Apps.Models
         public string Notes { get; set; }
 
         public DateTimeOffset? Date { get; set; }
+
+        public string ReleasesContent { get; set; }
     }
 }

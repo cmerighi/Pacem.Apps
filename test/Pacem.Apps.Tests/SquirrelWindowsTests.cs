@@ -15,21 +15,11 @@ namespace Pacem.Apps.Tests
         {
             IUpdater updater = StartupSingletons.BlobStorageUpdater;
             var latest = await updater.FindLatestVersionAsync("brainside", "win32", "x64");
-            var squirrel = latest.ToSquirrel();
-            string updateUrlOrPath = squirrel.DownloadFolderUri.AbsoluteUri;
-           
-            if (updateUrlOrPath.EndsWith("/"))
-            {
-                updateUrlOrPath = updateUrlOrPath.Substring(0, updateUrlOrPath.Length - 1);
-            }
+            string squirrel = latest.ToSquirrelWindows();
+            string[] pieces = squirrel.Split(' ');
+            Assert.NotEmpty(pieces);
 
-            Uri uri = AppendPathToUri(new Uri(updateUrlOrPath), "RELEASES");
-
-            string url = uri.ToString();
-            var data = await DownloadUrl(url);
-            string releaseFile = Encoding.UTF8.GetString(data);
-
-            Assert.NotNull(releaseFile);
+            Assert.Equal(latest.UpdateDownloadUrl, pieces[1]);
         }
 
         Uri AppendPathToUri(Uri uri, string path)

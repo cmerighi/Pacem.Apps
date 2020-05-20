@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Pacem.Apps.Models
 {
-    public class SquirrelResponse
+    public class SquirrelMacResponse
     {
         public string Name { get; set; }
 
