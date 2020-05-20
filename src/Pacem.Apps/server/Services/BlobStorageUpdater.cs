@@ -90,7 +90,7 @@ namespace Pacem.Apps.Services
                     UpdateDownloadUrl = string.Concat(updateBlob.Uri, sasQuery),
                     Name = product,
                     Version = latest.Key,
-                    Date = downloadBlob.Properties.Created
+                    Date = updateBlob.Properties.Created
                 };
 
                 string json = JsonSerializer.Serialize(latestRelease, _json);
