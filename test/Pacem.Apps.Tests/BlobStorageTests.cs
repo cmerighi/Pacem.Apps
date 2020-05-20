@@ -12,23 +12,12 @@ namespace Pacem.Apps.Tests
 {
     public class BlobStorageTests
     {
-        private readonly BlobStorageUpdater _storage;
+        private readonly IUpdater _storage;
 
         public BlobStorageTests()
         {
-            var config = ConfigurationRoot = new ConfigurationBuilder().AddJsonFile("config.json")
-                .AddJsonFile("config.development.json", optional: true)
-                .Build();
-
-            var json = new System.Text.Json.JsonSerializerOptions();
-            json.ConfigurePacemDefaults();
-            var cacheOptions = new MemoryDistributedCacheOptions();
-            var cache = new MemoryDistributedCache(new OptionsWrapper<MemoryDistributedCacheOptions>(cacheOptions));
-
-            _storage = new BlobStorageUpdater(cache, config, new OptionsWrapper<System.Text.Json.JsonSerializerOptions>(json));
+            _storage = StartupSingletons.BlobStorageUpdater;
         }
-
-        public IConfiguration ConfigurationRoot { get; }
 
         [Fact]
         public async Task Should_Retrieve_Version()

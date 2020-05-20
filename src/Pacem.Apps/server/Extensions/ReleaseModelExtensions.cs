@@ -19,7 +19,7 @@ namespace Pacem.Apps
             {
                 Date = release.Date,
                 DownloadFolderUri = builder.Uri,
-                Name = release.Name,
+                Name = release.Version,
                 Notes = release.Notes
             };
         }
