@@ -27,7 +27,7 @@ namespace Pacem.Apps.Controllers
             _updater = updater;
         }
 
-        [HttpGet("exists/{product}/{platform}/{arch}/{version}")]
+        [HttpGet("check/{product}/{platform}/{arch}/{version}")]
         public async Task<ActionResult> CheckAppVersionExistsAsync([Required] string product, [Required] string platform, [Required] string arch, [Required] string version)
         {
             if (!ModelState.IsValid)
@@ -46,7 +46,7 @@ namespace Pacem.Apps.Controllers
             }
         }
 
-        [HttpGet("check/{product}/{platform}/{arch}/{version}/RELEASES")]
+        [HttpGet("{product}/{platform}/{arch}/{version}/updates/RELEASES")]
         public async Task<ActionResult<Models.ReleaseModel>> CheckAppVersionUpdateAsync([Required] string product, [Required] string platform, [Required] string arch, [Required] string version)
         {
             if (!ModelState.IsValid)
