@@ -27,8 +27,27 @@ namespace Pacem.Apps.Controllers
             _updater = updater;
         }
 
-        [HttpGet("{product}/{platform}/{arch}/{version}/RELEASES")]
-        public async Task<ActionResult<Models.ReleaseModel>> CheckAppVersionTheSquirrelWayAsync([Required] string product, [Required] string platform, [Required] string arch, [Required] string version)
+        [HttpGet("exists/{product}/{platform}/{arch}/{version}")]
+        public async Task<ActionResult> CheckAppVersionExistsAsync([Required] string product, [Required] string platform, [Required] string arch, [Required] string version)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            bool exists = await _updater.HasVersionAsync(product, platform, arch, version);
+            if (exists)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("check/{product}/{platform}/{arch}/{version}/RELEASES")]
+        public async Task<ActionResult<Models.ReleaseModel>> CheckAppVersionUpdateAsync([Required] string product, [Required] string platform, [Required] string arch, [Required] string version)
         {
             if (!ModelState.IsValid)
             {

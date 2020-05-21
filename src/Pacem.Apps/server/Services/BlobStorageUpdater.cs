@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,21 @@ using System.Threading.Tasks;
 
 namespace Pacem.Apps.Services
 {
+    internal class ReleaseStorage
+    {
+        public Dictionary<string, ReleasePlatform> Platforms { get; set; } = new Dictionary<string, ReleasePlatform>();
+    }
+
+    internal class ReleasePlatform
+    {
+        public Dictionary<string, ReleaseArchitecture> Architectures { get; set; } = new Dictionary<string, ReleaseArchitecture>();
+    }
+
+    internal class ReleaseArchitecture
+    {
+        public List<string> Versions { get; set; } = new List<string>();
+    }
+
 
     public class BlobStorageUpdater : IUpdater
     {
@@ -31,32 +47,87 @@ namespace Pacem.Apps.Services
             _container = blobs.GetContainerReference("apps");
         }
 
-        //public async Task<Stream> DownloadAsync(string product, string platform, string arch, string version)
-        //{
-        //    var latest = await FindLatestVersionAsync(product, platform, arch);
-        //    if (!string.Equals(latest?.Version, version, StringComparison.OrdinalIgnoreCase))
-        //    {
-        //        throw new ArgumentOutOfRangeException(nameof(version), "Can only download the latest version.");
-        //    }
+        /// <summary>
+        /// Gets the base virtual path for the stored releases in the blob container.
+        /// </summary>
+        public string BasePath { get; }
 
-        //    var url = latest.Uri;
-        //    ICloudBlob blob = await _blobs.GetBlobReferenceFromServerAsync(url);
-        //    return await blob.OpenReadAsync();
-        //}
+        private string GetFullPath(string releasePath)
+            => string.Concat(BasePath, "/", releasePath).RemoveLeadingSlash();
+
+        private async Task<ReleaseStorage> GetProductReleaseStorageAsync(string product)
+        {
+            string key = $"{product.ToLowerInvariant()}-versions";
+            string stored = await _cache.GetStringAsync(key);
+            if (string.IsNullOrEmpty(stored))
+            {
+                string prefix = GetFullPath(product);
+                var folders = _container.ListBlobs(
+                    prefix: prefix,
+                    useFlatBlobListing: true
+                    )
+                    .OfType<CloudBlockBlob>()
+                    .GroupBy(i => i.Name.Substring(0, i.Name.LastIndexOf('/')))
+                    .Select(i => i.Key.Substring(prefix.Length + 1).ToLowerInvariant())
+                    .ToList();
+
+                var storage = new ReleaseStorage();
+                foreach (var folder in folders)
+                {
+                    string[] segments = folder.Split('/');
+
+                    if (segments.Length < 3)
+                    {
+                        continue;
+                    }
+
+                    string platform = segments[0],
+                        arch = segments[1],
+                        version = segments[2];
+
+                    if (!storage.Platforms.TryGetValue(platform, out var releasePlatform))
+                    {
+                        storage.Platforms.Add(platform, releasePlatform = new ReleasePlatform());
+                    }
+                    if (!releasePlatform.Architectures.TryGetValue(arch, out var releaseArchitecture))
+                    {
+                        releasePlatform.Architectures.Add(arch, releaseArchitecture = new ReleaseArchitecture());
+                    }
+                    releaseArchitecture.Versions.Add(version);
+                }
+
+                string json = JsonSerializer.Serialize(storage, _json);
+                await _cache.SetStringAsync(key, json, new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
+                });
+                return storage;
+            }
+            return JsonSerializer.Deserialize<ReleaseStorage>(stored, _json);
+        }
+
+        public async Task<bool> HasVersionAsync(string product, string platform, string arch, string version)
+        {
+            var storage = await GetProductReleaseStorageAsync(product);
+            return storage.Platforms.TryGetValue(platform, out var releasePlatform)
+                && releasePlatform.Architectures.TryGetValue(arch, out var releaseArchitecture)
+                && releaseArchitecture.Versions.Contains(version);
+        }
 
         public async Task<Models.ReleaseModel> FindLatestVersionAsync(string product, string platform, string arch)
         {
-            string prefix = $"{product}/{platform}/{arch}";
-            string stored = await _cache.GetStringAsync(prefix);
+            string key = $"{product}/{platform}/{arch}";
+            string stored = await _cache.GetStringAsync(key);
             if (string.IsNullOrEmpty(stored))
             {
+                string prefix = GetFullPath(key);
                 var comparer = new VersionComparer();
                 var versions = _container.ListBlobs(prefix: prefix, useFlatBlobListing: true)
                     .OfType<CloudBlockBlob>()
                     .GroupBy(i =>
                     {
                         string folders = i.Name.Substring(0, i.Name.LastIndexOf('/'));
-                        return folders.Substring(folders.LastIndexOf('/')+1);
+                        return folders.Substring(folders.LastIndexOf('/') + 1);
                     })
                     .OrderByDescending(b => b.Key, comparer);
                 var latest = versions.FirstOrDefault();
@@ -93,12 +164,14 @@ namespace Pacem.Apps.Services
                     UpdateDownloadUrl = string.Concat(updateBlob.Uri, sasQuery),
                     Name = product,
                     Version = latest.Key,
+                    Platform = platform,
+                    Architecture = arch,
                     Date = updateBlob.Properties.Created,
                     ReleasesContent = await releasesBlob.DownloadTextAsync()
                 };
 
                 string json = JsonSerializer.Serialize(latestRelease, _json);
-                await _cache.SetStringAsync(prefix, json, new DistributedCacheEntryOptions
+                await _cache.SetStringAsync(key, json, new DistributedCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30)
                 });

@@ -20,7 +20,7 @@ namespace Pacem.Apps.Tests
         }
 
         [Fact]
-        public async Task Should_Retrieve_Version()
+        public async Task Should_Retrieve_LatestVersion()
         {
             var latest = await _storage.FindLatestVersionAsync("brainside", "win32", "x64");
             Assert.NotNull(latest);
@@ -28,6 +28,15 @@ namespace Pacem.Apps.Tests
             Assert.Contains(".exe", latest.FullDownloadUrl);
             Assert.Contains(".nupkg", latest.UpdateDownloadUrl);
             Assert.Matches(VersionComparer.VersionPattern, latest.Version);
+        }
+
+        [Fact]
+        public async Task Should_Find_Version()
+        {
+            var has = await _storage.HasVersionAsync("brainside", "win32", "x64", "0.0.2");
+            Assert.True(has);
+            var hasNot = await _storage.HasVersionAsync("brainside", "win32", "x64", "0.0.1");
+            Assert.False(hasNot);
         }
     }
 
