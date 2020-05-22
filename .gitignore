@@ -343,6 +343,6 @@ healthchecksdb
 *.[Dd]evelopment.json
 
 # Local output files
-dist/*
+dist/
 package-lock.json
-Properties/*
+Properties/
