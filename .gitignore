@@ -344,3 +344,5 @@ healthchecksdb
 
 # Local output files
 dist/*
+package-lock.json
+Properties/*

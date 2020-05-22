@@ -13,7 +13,7 @@ Give consumable endpoints to your Squirrel-powered app, in order to:
 
 #### Check-for-Updates endpoint
 
-Path:
+Route:
 ```
 /{product}/{platform}/{architecture}/{version}/updates/RELEASES
 ```
@@ -27,7 +27,7 @@ autoUpdater.setFeedURL('https://server/my-glorious-app/win32/x64/0.0.1/updates')
 
 #### Check-for-Version endpoint
 
-Path:
+Route:
 ```
 /check/{product}/{platform}/{architecture}/{version}
 ```
