@@ -7,7 +7,7 @@
     "copy-shared-js": "rimraf wwwroot/js/pacem && copyfiles -f node_modules/pacem/dist/js/*.js node_modules/three/examples/js/controls/orbitcontrols.js wwwroot/js/pacem",
     "uglify-js": "uglifyjs --compress --mangle --output wwwroot/js/pacem-apps/app.min.js -- wwwroot/js/pacem-apps/app.js",
     "build-css": "lessc --clean-css --modify-var=\"shell_selector='html[apps]'\" --modify-var=\"shell_only=true\" --modify-var=\"full_theme=false\" --modify-var=\"theme=theme-phousys\" node_modules/pacem-less/pacem/pacem.less wwwroot/css/pacem-apps-shell.min.css && lessc --clean-css --modify-var=\"shell_selector='html[apps]'\" --modify-var=\"shell_only=false\" --modify-var=\"full_theme=false\" --modify-var=\"fonts=fonts-phousys\" --modify-var=\"theme=theme-phousys\" node_modules/pacem-less/pacem/pacem.less wwwroot/css/pacem-apps-content.min.css",
-    "build": "npm run copy-shared-js && npm run build-js && npm run build-css"
+    "build": "npm run build-js && npm run build-css && npm run copy-shared-js"
   },
   "dependencies": {
     "pacem": "0.9.0-byblos",
