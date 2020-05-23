@@ -14,7 +14,7 @@ This WebApp aims to provide the endpoints that your Squirrel-powered app needs i
 As you can see through the code, this default implementation exploits
 [Azure Blob Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/).
 
-> Currently tested on Windows platform only.
+Currently tested on Windows platform only.
 
 #### Check-for-Updates endpoint
 
