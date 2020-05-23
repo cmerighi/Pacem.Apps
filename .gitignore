@@ -346,3 +346,5 @@ healthchecksdb
 dist/
 package-lock.json
 Properties/
+wwwroot/js/
+wwwroot/css/

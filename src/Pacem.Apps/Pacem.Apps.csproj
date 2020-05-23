@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="server\Pages\Products\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
