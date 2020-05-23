@@ -5,11 +5,14 @@ release server (mostly for [Electron](https://www.electronjs.org/)
 applications), written in ASP.Net Core 3.1+.
 
 ### The Big Picture
-Give consumable endpoints to your Squirrel-powered app, in order to:
+This WebApp aims to provide the endpoints that your Squirrel-powered app needs in order to:
 
 - check for updates;
 - download the updates;
 - check for version existence.
+
+As you can see through the code, this default implementation exploits
+[Azure Blob Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/).
 
 #### Check-for-Updates endpoint
 
