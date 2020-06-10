@@ -11,8 +11,9 @@ This WebApp aims to provide the endpoints that your Squirrel-powered app needs i
 - download the updates;
 - check for version existence.
 
-As you can see through the code, this default implementation exploits
-[Azure Blob Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/).
+As you can see through the code, this default implementation exploits the
+[Azure Blob Storage](https://docs.microsoft.com/en-us/azure/storage/blobs/)
+and their API.
 
 Currently tested on Windows platform only.
 
@@ -39,7 +40,7 @@ Route:
 
 Returns a `200` status if the version exists, otherwise a `404`.
 
-> This endpoint is not related a Squirrel-relevant use case
+> This endpoint is not related to a Squirrel-relevant use case
 
 Nevertheless might be useful (e.g. when checked in a DevOps product release pipeline).
 
