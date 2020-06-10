@@ -42,3 +42,13 @@ Returns a `200` status if the version exists, otherwise a `404`.
 > This endpoint is not related a Squirrel-relevant use case
 
 Nevertheless might be useful (e.g. when checked in a DevOps product release pipeline).
+
+#### Full-Download endpoint
+
+Route:
+```
+/download/{product}/{platform}/{architecture}
+```
+
+Redirects to the full download url (e.g: _.exe_) of the `product`'s **latest version**.  
+If no matching app is found, you get a `404`.

@@ -34,7 +34,7 @@ namespace Pacem.Apps.Controllers
             {
                 return BadRequest(ModelState);
             }
-            
+
             bool exists = await _updater.HasVersionAsync(product, platform, arch, version);
             if (exists)
             {
@@ -55,7 +55,7 @@ namespace Pacem.Apps.Controllers
             }
 
             var latest = await _updater.FindLatestVersionAsync(product, platform, arch);
-            if (latest  != null && _vComparer.Compare(version, latest.Version) < 0)
+            if (latest != null && _vComparer.Compare(version, latest.Version) < 0)
             {
                 // convert to a Squirrel response
                 var squirrel = latest.ToSquirrelWindows();
