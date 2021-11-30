@@ -21,14 +21,14 @@ Currently tested on Windows platform only.
 
 Route:
 ```
-/{product}/{platform}/{architecture}/{version}/updates/RELEASES
+/releases/{product}/{platform}/{architecture}/{version}/updates/RELEASES
 ```
 
 When using `autoUpdater` in your application, just set:
 ```js
 
-// ReleaseServer/{product}/{platform}/{arch}/{currentAppVersion}/updates
-autoUpdater.setFeedURL('https://server/my-glorious-app/win32/x64/0.0.1/updates');
+// ReleaseServer/releases/{product}/{platform}/{arch}/{currentAppVersion}/updates
+autoUpdater.setFeedURL('https://server/releases/my-glorious-app/win32/x64/0.0.1/updates');
 ```
 
 #### Check-for-Version endpoint
