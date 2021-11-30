@@ -44,7 +44,8 @@ namespace Pacem.Apps.Services
             _cache = cache;
             var account = _account = CloudStorageAccount.Parse(configuration.GetConnectionString("blob"));
             var blobs = _blobs = account.CreateCloudBlobClient();
-            _container = blobs.GetContainerReference("apps");
+            string containerName = configuration.GetValue<string>("StorageContainer") ?? "apps";
+            _container = blobs.GetContainerReference(containerName);
         }
 
         /// <summary>

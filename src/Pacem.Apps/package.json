@@ -6,25 +6,25 @@
     "build-js": "tsc -p tsconfig.json && npm run uglify-js && header wwwroot/js/pacem-apps/*.js",
     "copy-shared-js": "rimraf wwwroot/js/pacem && copyfiles -f node_modules/pacem/dist/js/*.js node_modules/three/examples/js/controls/orbitcontrols.js wwwroot/js/pacem",
     "uglify-js": "uglifyjs --compress --mangle --output wwwroot/js/pacem-apps/app.min.js -- wwwroot/js/pacem-apps/app.js",
-    "build-css": "lessc --clean-css --modify-var=\"shell_selector='html[apps]'\" --modify-var=\"shell_only=true\" --modify-var=\"full_theme=false\" --modify-var=\"theme=theme-phousys\" node_modules/pacem-less/pacem/pacem.less wwwroot/css/pacem-apps-shell.min.css && lessc --clean-css --modify-var=\"shell_selector='html[apps]'\" --modify-var=\"shell_only=false\" --modify-var=\"full_theme=false\" --modify-var=\"fonts=fonts-phousys\" --modify-var=\"theme=theme-phousys\" node_modules/pacem-less/pacem/pacem.less wwwroot/css/pacem-apps-content.min.css",
+    "build-css": "lessc --math=always --clean-css --modify-var=\"shell_selector='html[apps]'\" --modify-var=\"shell_only=true\" --modify-var=\"full_theme=false\" --modify-var=\"theme=phousys\" node_modules/pacem-less/pacem/pacem.less wwwroot/css/pacem-apps-shell.min.css && lessc --math=always --clean-css --modify-var=\"shell_selector='html[apps]'\" --modify-var=\"shell_only=false\" --modify-var=\"full_theme=false\" --modify-var=\"fonts=fonts-phousys\" --modify-var=\"theme=phousys\" node_modules/pacem-less/pacem/pacem.less wwwroot/css/pacem-apps-content.min.css",
     "build": "npm run build-js && npm run build-css && npm run copy-shared-js"
   },
   "dependencies": {
-    "pacem": "0.9.0",
-    "pacem-less": "0.9.0"
+    "pacem": "0.20.1",
+    "pacem-less": "0.20.1"
   },
   "devDependencies": {
+    "@amap/amap-jsapi-types": "0.0.8",
     "@types/leaflet": "1.4.0",
     "@types/three": "0.93.31",
-    "@types/googlemaps": "3.30.16",
-    "@aspnet/signalr": "1.1.0",
+    "@types/google.maps": "3.47.0",
     "copyfiles": "2.1.0",
-    "less": "3.11.1",
+    "less": "4.1.2",
     "less-plugin-clean-css": "1.5.1",
-    "@types/swagger-schema-official": "2.0.18",
+    "@types/swagger-schema-official": "2.0.22",
     "module-header": "0.5.0",
     "rimraf": "3.0.2",
-    "typescript": "3.9.3",
+    "typescript": "4.5.2",
     "uglify-es": "3.3.10"
   }
 }
